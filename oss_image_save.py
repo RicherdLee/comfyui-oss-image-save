@@ -51,8 +51,8 @@ class SaveImageOSS:
         }
         try:
             client = tos.TosClientV2(ak, sk, endpoint, region)
-            
-            idx = 0
+            now = time.time()
+            idx =  int(now * 1000)
             for image in images:
                 array = 255. * image.cpu().numpy()
                 img = Image.fromarray(numpy.clip(array, 0, 255).astype(numpy.uint8))
@@ -64,10 +64,9 @@ class SaveImageOSS:
                 # 重置字节流的位置
                 byte_io.seek(0)
 
-                
-                client.put_object(bucket_name, f"{tos_file_name}/{idx}.png", content=byte_io.read())
-                call_back_req['data'].append({"order_name":order_no,"image_name":f"{idx}.png","file_name":f"{tos_file_name}/{idx}.png"})
-                idx = idx+1
+                file_name = f"{tos_file_name}/{idx}.png"
+                client.put_object(bucket_name, file_name, content=byte_io.read())
+                call_back_req['data'].append({"order_name":order_no,"image_name":f"{idx}.png","file_name":file_name})
         except Exception as e:
             print('fail with unknown error: {}'.format(e))
             call_back_req['status']=0
