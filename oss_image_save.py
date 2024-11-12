@@ -20,24 +20,26 @@ class SaveImageOSS:
         return {"required":
                     {
                         "images": ("IMAGE", ),
-                        "ak": ("STRING", ), # tos ak 
-                        "sk": ("STRING", ), # tos sk
-                        "tos_file_name": ("STRING", ), # tos对应文件目录
-                        "endpoint": ("STRING", ), # tos endpoint
-                        "region": ("STRING", ), # tos region
-                        "bucket_name": ("STRING", ), # tos bucket_name
-                        "order_no": ("STRING", ), # 标识
-                        "call_back": ("STRING", ), # 回调地址
+                        "ak": ("STRING", {"forceInput": True}), # tos ak 
+                        "sk": ("STRING", {"forceInput": True}), # tos sk
+                        "tos_file_name": ("STRING",  {"forceInput": True}), # tos对应文件目录
+                        "endpoint": ("STRING", {"forceInput": True}), # tos endpoint
+                        "region": ("STRING", {"forceInput": True}), # tos region
+                        "bucket_name": ("STRING", {"forceInput": True}), # tos bucket_name
+                        "order_no": ("STRING", {"forceInput": True}), # 标识
+                        "call_back": ("STRING", {"forceInput": True}), # 回调地址
                         }
                 }
-
-    RETURN_TYPES = ()
     
+    RETURN_TYPES = ()
+
     FUNCTION = "save_images"
 
     OUTPUT_NODE = True
 
     CATEGORY = "api/image"
+
+
 
     def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,call_back):
         import tos
@@ -47,8 +49,6 @@ class SaveImageOSS:
             "message":"success",
             "data":[]
         }
-        ak='AKLTNDBlOTdiMjQ2NDk5NDc2Zjk2OWMyZWI0YzcyYWQwNjU'
-        sk='WVdJMlltSmhNMk0wTURabE5EVTBNRGs0WldJNFpUQXdaRGczWWpFMVl6Yw=='
         try:
             client = tos.TosClientV2(ak, sk, endpoint, region)
             
