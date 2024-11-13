@@ -48,7 +48,7 @@ class SaveImageOSS:
             "status":1,
             "code":200,
             "message":"success",
-            "data":[]
+            "data":{}
         }
         try:
             client = tos.TosClientV2(ak, sk, endpoint, region)
@@ -68,7 +68,7 @@ class SaveImageOSS:
                 file_name = f"{tos_file_name}/{idx}.png"
                 aiGenerateUrls = f"https://{bucket_name}.tos-{region}.volces.com/{file_name}"
                 client.put_object(bucket_name, file_name, content=byte_io.read())
-                call_back_req['data'].append({"orderNo":order_no,"orderId":order_id,"image_name":f"{idx}.png","file_name":file_name,"aiGenerateUrls":[aiGenerateUrls]})
+                call_back_req['data']={"orderNo":order_no,"orderId":order_id,"image_name":f"{idx}.png","file_name":file_name,"aiGenerateUrls":[aiGenerateUrls]}
         except Exception as e:
             print('fail with unknown error: {}'.format(e))
             call_back_req['status']=0
