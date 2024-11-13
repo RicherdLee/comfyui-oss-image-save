@@ -83,8 +83,10 @@ class SaveImageOSS:
             "Content-Type": "application/json",
             'X-DashScope-Async': 'enable'
         }
-        requests.post(call_back,headers=header,data=json.dumps(call_back_req))
-        
+        print(f"oss_image_save:{call_back}")
+        print(f"oss_image_save:{json.dumps(call_back_req)}")
+        res=requests.post(call_back,headers=header,data=json.dumps(call_back_req))
+        print(f"oss_image_save:{res.content}")
         return {}
 
     @classmethod
