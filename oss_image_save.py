@@ -27,6 +27,7 @@ class SaveImageOSS:
                         "region": ("STRING", {"forceInput": True}), # tos region
                         "bucket_name": ("STRING", {"forceInput": True}), # tos bucket_name
                         "order_no": ("STRING", {"forceInput": True}), # 标识
+                        "order_id": ("STRING", {"forceInput": True}), # 标识
                         "call_back": ("STRING", {"forceInput": True}), # 回调地址
                         }
                 }
@@ -41,7 +42,7 @@ class SaveImageOSS:
 
 
 
-    def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,call_back):
+    def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back):
         import tos
         call_back_req={
             "status":1,
@@ -65,8 +66,9 @@ class SaveImageOSS:
                 byte_io.seek(0)
 
                 file_name = f"{tos_file_name}/{idx}.png"
+                aiGenerateUrls = f"https://{bucket_name}.tos-{region}.volces.com/{file_name}"
                 client.put_object(bucket_name, file_name, content=byte_io.read())
-                call_back_req['data'].append({"order_name":order_no,"image_name":f"{idx}.png","file_name":file_name})
+                call_back_req['data'].append({"orderNo":order_no,"orderId":order_id,"image_name":f"{idx}.png","file_name":file_name,"aiGenerateUrls":[aiGenerateUrls]})
         except Exception as e:
             print('fail with unknown error: {}'.format(e))
             call_back_req['status']=0
