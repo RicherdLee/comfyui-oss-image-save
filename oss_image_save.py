@@ -67,7 +67,7 @@ class SaveImageOSS:
                 byte_io.seek(0)
 
                 file_name = f"{tos_file_name}/{idx}.png"
-                aiGenerateUrls = f"https://{bucket_name}.tos-{region}.volces.com/{file_name}"
+                aiGenerateUrls = file_name
                 client.put_object(bucket_name, file_name, content=byte_io.read())
                 call_back_req['aiGenerateUrls'].append(aiGenerateUrls)
         except Exception as e:
