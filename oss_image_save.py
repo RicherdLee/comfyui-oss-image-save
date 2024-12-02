@@ -20,6 +20,8 @@ class SaveImageOSS:
         return {"required":
                     {
                         "images": ("IMAGE", ),
+                        "output_name": ("STRING",{"default": ""}),
+                        "exten": (['png', 'jpg', 'jpeg', 'gif', 'tiff', 'webp', 'bmp'], ),
                         "ak": ("STRING", {"forceInput": True}), # tos ak 
                         "sk": ("STRING", {"forceInput": True}), # tos sk
                         "tos_file_name": ("STRING",  {"forceInput": True}), # tos对应文件目录
@@ -42,7 +44,11 @@ class SaveImageOSS:
 
 
 
-    def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back):
+    def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back,output_name="",exten="png"):
+
+        # 生成文件名
+        file = f"lora_{output_name}.{exten}"
+
         import tos
         call_back_req={
             "code":200,
@@ -62,11 +68,11 @@ class SaveImageOSS:
                 # 创建一个字节流
                 byte_io = io.BytesIO()
                 # 将图像保存到字节流中，格式可以是 'PNG' 或 'JPEG'
-                img.save(byte_io, format="png")
+                img.save(byte_io, format=exten)
                 # 重置字节流的位置
                 byte_io.seek(0)
 
-                file_name = f"{tos_file_name}/{idx}.png"
+                file_name = f"{tos_file_name}/{file}"
                 aiGenerateUrls = file_name
                 client.put_object(bucket_name, file_name, content=byte_io.read())
                 call_back_req['aiGenerateUrls'].append(aiGenerateUrls)
