@@ -46,8 +46,7 @@ class SaveImageOSS:
 
     def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back,output_name="",exten="png"):
 
-        # 生成文件名
-        file = f"lora_{output_name}.{exten}"
+        
 
         import tos
         call_back_req={
@@ -61,6 +60,11 @@ class SaveImageOSS:
             client = tos.TosClientV2(ak, sk, endpoint, region)
             now = time.time()
             idx =  int(now * 1000)
+            # 生成文件名
+            if output_name=="":
+                output_name = str(idx)
+            
+            file = f"lora_{output_name}.{exten}"
             for image in images:
                 array = 255. * image.cpu().numpy()
                 img = Image.fromarray(numpy.clip(array, 0, 255).astype(numpy.uint8))
