@@ -21,6 +21,8 @@ class SaveImageOSS:
                     {
                         "images": ("IMAGE", ),
                         "output_name": ("STRING",{"default": ""}),
+                        "task_id": ("STRING",{"default": ""}),
+                        "workflow_id": ("STRING",{"default": ""}),
                         "exten": (['png', 'jpg', 'jpeg', 'gif', 'tiff', 'webp', 'bmp'], ),
                         "ak": ("STRING", {"forceInput": True}), # tos ak 
                         "sk": ("STRING", {"forceInput": True}), # tos sk
@@ -44,7 +46,7 @@ class SaveImageOSS:
 
 
 
-    def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back,output_name="",exten="png"):
+    def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back,output_name="",exten="png",task_id="",workflow_id=""):
 
         import tos
         call_back_req={
@@ -52,6 +54,8 @@ class SaveImageOSS:
             "message":"success",
             "orderNo":order_no,
             "orderId":order_id,
+            "platTaskId":task_id,
+            "platWorkflowId":workflow_id,
             "aiGenerateUrls":[]
         }
         try:
