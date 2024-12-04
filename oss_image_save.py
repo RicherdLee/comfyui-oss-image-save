@@ -46,8 +46,6 @@ class SaveImageOSS:
 
     def save_images(self, ak, sk,images,tos_file_name,endpoint,region,bucket_name,order_no,order_id,call_back,output_name="",exten="png"):
 
-        
-
         import tos
         call_back_req={
             "code":200,
