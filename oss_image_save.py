@@ -79,6 +79,8 @@ class SaveImageOSS:
                 file_name = f"{tos_file_name}/{file}"
                 aiGenerateUrls = file_name
                 client.put_object(bucket_name, file_name, content=byte_io.read())
+                now1= int(time.time())
+                print(f"oss_image_save,推送oos耗时,{(now1-now)*1000}s")
                 call_back_req['aiGenerateUrls'].append(aiGenerateUrls)
         except Exception as e:
             print('fail with unknown error: {}'.format(e))
@@ -97,6 +99,8 @@ class SaveImageOSS:
         print(f"oss_image_save:{json.dumps(call_back_req)}")
         res=requests.post(call_back,headers=header,data=json.dumps(call_back_req))
         print(f"oss_image_save:{res.content}")
+        now2= int(time.time())
+        print(f"oss_image_save,接口耗时,{(now2-now1)*1000}s")
         return {}
 
     @classmethod
